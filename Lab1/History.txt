@@ -1,0 +1,5 @@
+aws s3api create-bucket --bucket denys-super-bucket-v1 --region us-east-2  --create-bucket-configuration LocationConstraint=us-east-2 
+aws s3api put-bucket-policy --bucket denys-super-bucket-v1 --policy file:///home/vladyslav/Den/bucket_policy.json  
+aws s3 sync /D:\HT\Lab1 s3://denys-super-bucket-v1/  
+aws s3 website s3://denys-super-bucket-v1/ --index-document index.html --error-document error.html
+
