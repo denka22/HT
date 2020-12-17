@@ -1,0 +1,9 @@
+ "VpcId": "vpc-08a9df8b7f2321030",
+ "InternetGatewayId": "igw-041fc07609c79996b",
+  "SubnetId": "subnet-0c3d1116bf42f90ed",
+"RouteTableId": "rtb-0ea8da6bb6b8b0b26",
+"AssociationId": "rtbassoc-06966f4478db2f6aa",
+  "KeyPairId": "key-029d3c8b18c8ee3d6",
+"GroupId": "sg-0a75cda570a39c2d4"
+  "InstanceId": "i-09033f2e30b7a3fab",
+"PublicIpAddress": "18.222.88.178",
