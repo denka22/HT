@@ -1,0 +1,26 @@
+aws ec2 create-vpc --cidr-block 10.0.0.0/16
+aws ec2 create-tags --resources vpc-0c767ec22d6d456ee --tags Key=Name,Value="My-vpc"
+aws ec2 create-internet-gateway
+aws ec2 attach-internet-gateway --vpc-id vpc-0c767ec22d6d456ee --internet-gateway-id igw-0f45ac7f911c8aad1
+aws ec2 create-tags --resources igw-0f45ac7f911c8aad1 --tags Key=Name,Value="my-igw"
+aws ec2 create-subnet --cidr-block 10.0.1.0/24 --vpc-id vpc-0c767ec22d6d456ee
+aws ec2 modify-subnet-attribute --subnet-id subnet-01c67d5943220f901 --map-public-ip-on-launch
+aws ec2 create-tags --resources subnet-02c2748150cea958e --tags Key=Name,Value="my-snet"
+aws ec2 create-tags --resources subnet-01c67d5943220f901 --tags Key=Name,Value="my-snet"
+aws ec2 create-route-table --vpc-id vpc-0c767ec22d6d456ee
+aws ec2 create-tags --resources rtb-0907db0785282823a --tags Key=Name,Value="my-routes"
+aws ec2 create-route --destination-cidr-block 0.0.0.0/0 --gateway-id igw-0f45ac7f911c8aad1 --route-table-id rtb-0907db0785282823a
+aws ec2 associate-route-table --route-table-id rtb-0907db0785282823a --subnet-id subnet-01c67d5943220f901
+aws ec2 create-key-pair --key-name mypair --query 'KeyMaterial' --output text > mypair.pem
+chmod 400 "mypair.pem"
+aws ec2 wait key-pair-exists --key-names mypair
+aws ec2 describe-key-pairs --key-names mypair
+aws ec2 create-security-group --group-name my-sgroup --description "my-sgroup security group for SSH access" --vpc-id vpc-0c767ec22d6d456ee
+aws ec2 describe-security-groups --filters Name=description,Values="my-sgroup security group for SSH access"
+aws ec2 authorize-security-group-ingress --group-id sg-0a4bb7b2bc88f47fb --protocol tcp --port 22 --cidr 0.0.0.0/0
+aws ec2 authorize-security-group-ingress --group-id sg-0a4bb7b2bc88f47fb --protocol tcp --port 80 --cidr 0.0.0.0/0
+aws ec2 wait security-group-exists --group-ids sg-0a4bb7b2bc88f47fb
+aws ec2 run-instances --image-id ami-09558250a3419e7d0  --count 1 --instance-type t2.micro --key-name mypair --security-group-ids sg-0a4bb7b2bc88f47fb --subnet-id subnet-01c67d5943220f901
+aws ec2 create-tags --resources i-02a58821eb756487b --tags Key=Role,Value="Web-Server"
+aws ec2 describe-instances --instance-ids i-02a58821eb756487b
+doskey /HISTORY > history.txt
