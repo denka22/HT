@@ -1,3 +1,0 @@
-"VpcId": "vpc-0140b38a51304b99e",
-
-"SubnetId": "subnet-0d5e52ac7d1d972e8", public
